@@ -26,9 +26,10 @@ class DialogHelper extends Helper
     /**
      * Asks a question to the user.
      *
-     * @param OutputInterface $output   An Output instance
-     * @param string|array    $question The question to ask
-     * @param string          $default  The default answer if none is given by the user
+     * @param OutputInterface $output       An Output instance
+     * @param string|array    $question     The question to ask
+     * @param string          $default      The default answer if none is given by the user
+     * @param array           $autoComplete List of values to autocomplete
      *
      * @return string The user answer
      *
@@ -64,8 +65,8 @@ class DialogHelper extends Helper
                 }
 
                 // Backspace Character
-                if (ord($c) == 127) {
-                    if ($i == 0) {
+                if (ord($c) === 127) {
+                    if ($i === 0) {
                         continue;
                     }
 
@@ -97,8 +98,6 @@ class DialogHelper extends Helper
                 $output->write($c);
                 $ret .= $c;
                 $i++;
-
-                $lastMatch = $currentMatched;
 
                 // Erase characters from cursor to end of line
                 $output->write("\033[K");
@@ -166,12 +165,12 @@ class DialogHelper extends Helper
      * validated data when the data is valid and throw an exception
      * otherwise.
      *
-     * @param OutputInterface $output    An Output instance
-     * @param string|array    $question  The question to ask
-     * @param callback        $validator A PHP callback
-     * @param integer         $attempts  Max number of times to ask before giving up (false by default, which means infinite)
-     * @param string          $default   The default answer if none is given by the user
-     * @param array           $autoComplete
+     * @param OutputInterface $output       An Output instance
+     * @param string|array    $question     The question to ask
+     * @param callback        $validator    A PHP callback
+     * @param integer         $attempts     Max number of times to ask before giving up (false by default, which means infinite)
+     * @param string          $default      The default answer if none is given by the user
+     * @param array           $autoComplete List of values to autocomplete
      *
      * @return mixed
      *
